@@ -5,7 +5,7 @@
 // - assign(obj: {}) => {}
 (function ObjectPolyfills() {
   'use strict';
-  
+
   var ObjectStatic = {
     keys: function (obj) {
       var keys = [];
@@ -33,7 +33,7 @@
         }, Object(target));
     }
   };
-  
+
   for (var key in ObjectStatic) {
     if (typeof Object[key] === 'function') continue;
     Object[key] = ObjectStatic[key];
@@ -77,14 +77,14 @@
 // - flatMap<T, U>(fn: (value: T, index: number, array: T[]) => U[], thisArg: any) => U[]
 (function ArrayPolyfills() {
   'use strict';
-  
+
   var ARGUMENT_ISNOT_FUNCTION = 'argument is not a Function object';
   var INITIAL_VALUE_NEEDED    = 'it must have least one element or initial value';
-  
+
   var ArrayPrototype = {
     map: function (fn, thisArg) {
       if (typeof fn !== 'function') throw new TypeError(ARGUMENT_ISNOT_FUNCTION);
-      
+
       var arr = [];
       for (var i = 0, len = this.length; i < len; ++i) {
         arr.push(fn.call(thisArg, this[i], i, this));
@@ -101,14 +101,14 @@
     },
     forEach: function (fn, thisArg) {
       if (typeof fn !== 'function') throw new TypeError(ARGUMENT_ISNOT_FUNCTION);
-      
+
       for (var i = 0, len = this.length; i < len; ++i) {
         fn.call(thisArg, this[i], i, this);
       }
     },
     every: function (fn, thisArg) {
       if (typeof fn !== 'function') throw new TypeError(ARGUMENT_ISNOT_FUNCTION);
-      
+
       for (var i = 0, len = this.length; i < len; ++i) {
         if (!fn.call(thisArg, this[i], i, this)) return false;
       }
@@ -116,7 +116,7 @@
     },
     some: function (fn, thisArg) {
       if (typeof fn !== 'function') throw new TypeError(ARGUMENT_ISNOT_FUNCTION);
-      
+
       for (var i = 0, len = this.length; i < len; ++i) {
         if (fn.call(thisArg, this[i], i, this)) return true;
       }
@@ -124,11 +124,11 @@
     },
     reduce: function (fn, initVal) {
       if (typeof fn !== 'function') throw new TypeError(ARGUMENT_ISNOT_FUNCTION);
-      
+
       var arr = Array.from(this);
       if (arguments.length >= 2) arr.unshift(initVal);
       if (arr.length === 0) throw new TypeError(INITIAL_VALUE_NEEDED);
-      
+
       var curr = arr[0];
       for (var i = 1, len = arr.length; i < len; ++i) {
         curr = fn.call(void 0, curr, arr[i], i, this);
@@ -161,13 +161,13 @@
       return this.map(fn, thisArg).flat();
     }
   };
-  
+
   var ArrayStatic = {
     from: function (arrayLike, mapfn, thisArg) {
       if (arrayLike.length === void 0) return [];
       if (arguments.length < 2) mapfn = function (x) { return x };
       if (typeof mapfn !== 'function') throw new TypeError(ARGUMENT_ISNOT_FUNCTION);
-      
+
       var arr = [];
       for (var i = 0, len = arrayLike.length; i < len; ++i) {
         arr.push(arrayLike[i]);
@@ -175,12 +175,12 @@
       return arr.map(mapfn, thisArg);
     }
   };
-  
+
   for (var key in ArrayPrototype) {
     if (typeof Array.prototype[key] === 'function') continue;
     Array.prototype[key] = ArrayPrototype[key];
   }
-  
+
   for (var key in ArrayStatic) {
     if (typeof Array[key] === 'function') continue;
     Array[key] = ArrayStatic[key];
@@ -194,7 +194,7 @@
 // - includes(s: string, startIndex: number) => boolean
 (function StringPolyFills() {
   'use strict';
-  
+
   var StringPrototype = {
     trim: function () {
       return String(this).replace(/^[\s\u00a0]+|[\s\u00a0]+$/g, '');
@@ -202,13 +202,13 @@
     startsWith: function (s, pos) {
       if (Object.prototype.toString.call(s) === '[object RegExp]') throw new TypeError();
       if (typeof pos !== 'number' || !(pos instanceof Number)) startIndex = 0;
-      
+
       return String(this).substr(pos | 0, s.length) === s;
     },
     endsWith: function (s, pos) {
       if (typeof pos !== 'number' || !(pos instanceof Number) || pos > s.length)
         pos = s.length;
-      
+
       pos -= s.length;
       var lastIndex = String(this).lastIndexOf(s, pos);
       return lastIndex !== -1 && lastIndex === pos;
@@ -217,7 +217,7 @@
       return String(this).indexOf(s, startIndex) !== -1;
     }
   };
-  
+
   for (var key in StringPrototype) {
     if (typeof String.prototype[key] === 'function') continue;
     String.prototype[key] = StringPrototype[key];
