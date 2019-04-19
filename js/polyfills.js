@@ -1,3 +1,8 @@
+// Object methods
+// - keys(obj: {}) => string[]
+// - values(obj: {}) => any[]
+// - entries(obj: {}) => { [key: string]: any }
+// - assign(obj: {}) => {}
 (function ObjectPolyfills() {
   'use strict';
   
@@ -35,6 +40,20 @@
   }
 }());
 
+// Array methods
+// - from<T, U>(arrayLike: ArrayLike<T>, mapfn: (value: T) => U, thisArg: any) => U[]
+// Array prototype methods
+// - map<T, U>(fn: (value: T, index: number, array: T[]) => U, thisArg: any) => U[]
+// - filter<T>(fn: (value: T, index: number, array: T[]) => any, thisArg: any) => T[]
+// - forEach<T>(fn: (value: T, index: number, array: T[]) => any, thisArg: any) => void
+// - every<T>(fn: (value: T, index: number, array: T[]) => any, thisArg: any) => boolean
+// - some<T>(fn: (value: T, index: number, array: T[]) => any, thisArg: any) => boolean
+// - reduce<T, U>(fn: (accumulator: U, value: T, index: number, array: T[]) => U, initVal: U) => U
+// - reduceRight<T, U>(fn: (accumulator: U, value: T, index: number, array: T[]) => U, initVal: U) => U
+// - indexOf<T>(item: T, startIndex: number) => number
+// - includes<T>(item: T, startIndex: number) => boolean
+// - flatten<T>(depth: number) => T[]
+// - flatMap<T, U>(fn: (value: T, index: number, array: T[]) => U[], thisArg: any) => U[]
 (function ArrayPolyfills() {
   'use strict';
   
@@ -147,6 +166,11 @@
   }
 }());
 
+// String prototype methods
+// - trim() => string
+// - startsWith(s: string, pos: number) => boolean
+// - endsWith(s: string, pos: number) => boolean
+// - includes(s: string, startIndex: number) => boolean
 (function StringPolyFills() {
   'use strict';
   
