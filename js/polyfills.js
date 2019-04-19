@@ -52,7 +52,7 @@
 // - reduceRight<T, U>(fn: (accumulator: U, value: T, index: number, array: T[]) => U, initVal: U) => U
 // - indexOf<T>(item: T, startIndex: number) => number
 // - includes<T>(item: T, startIndex: number) => boolean
-// - flatten<T>(depth: number) => T[]
+// - flat<T>(depth: number) => T[]
 // - flatMap<T, U>(fn: (value: T, index: number, array: T[]) => U[], thisArg: any) => U[]
 (function ArrayPolyfills() {
   'use strict';
@@ -129,15 +129,15 @@
     includes: function (item, startIndex) {
       return this.indexOf(item, startIndex) !== -1;
     },
-    flatten: function (depth) {
+    flat: function (depth) {
       var parsed = Number(depth);
       depth = isNaN(parsed) ? 1 : parsed | 0;
 
       var arr = this.reduce(function (acc, curr) { return acc.concat(curr) }, []);
-      return depth > 1 ? arr.flatten(depth - 1) : arr;
+      return depth > 1 ? arr.flat(depth - 1) : arr;
     },
     flatMap: function (fn, thisArg) {
-      return this.map(fn, thisArg).flatten();
+      return this.map(fn, thisArg).flat();
     }
   };
   
