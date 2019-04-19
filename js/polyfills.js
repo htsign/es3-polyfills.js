@@ -189,15 +189,26 @@
 
 // String prototype methods
 // - trim() => string
+// - trimStart() => string
+// - trimEnd() => string
 // - startsWith(s: string, pos: number) => boolean
 // - endsWith(s: string, pos: number) => boolean
 // - includes(s: string, startIndex: number) => boolean
+// - padStart(length: number, padString: string) => string
+// - padEnd(length: number, padString: string) => string
+// - repeat(count) => string
 (function StringPolyFills() {
   'use strict';
 
   var StringPrototype = {
     trim: function () {
       return String(this).replace(/^[\s\u00a0]+|[\s\u00a0]+$/g, '');
+    },
+    trimStart: function () {
+      return String(this).replace(/^[\s\u00a0]+/g, '');
+    },
+    trimEnd: function () {
+      return String(this).replace(/[\s\u00a0]+$/g, '');
     },
     startsWith: function (s, pos) {
       if (Object.prototype.toString.call(s) === '[object RegExp]') throw new TypeError();
@@ -215,6 +226,31 @@
     },
     includes: function (s, startIndex) {
       return String(this).indexOf(s, startIndex) !== -1;
+    },
+    padStart: function (length, padString) {
+      var s = String(this);
+      padString = padString != null ? String(padString) : ' ';
+
+      var restLength = length - s.length;
+      if (restLength < 0) return s;
+
+      var repeatCount = Math.ceil(restLength / padString.length);
+      return padString.repeat(repeatCount).slice(0, restLength) + s;
+    },
+    padEnd: function (length, padString) {
+      var s = String(this);
+      padString = padString != null ? String(padString) : ' ';
+
+      var restLength = length - s.length;
+      if (restLength < 0) return s;
+
+      var repeatCount = Math.ceil(restLength / padString.length);
+      return s + padString.repeat(repeatCount).slice(0, restLength);
+    },
+    repeat: function (count) {
+      count = Number(count) | 0;
+      if (count < 0) throw new RangeError('repeat count must be non-negative');
+      return Array.from({ length: count + 1 }).join(this);
     }
   };
 
