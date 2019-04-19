@@ -40,6 +40,27 @@
   }
 }());
 
+// Function prototype methods
+// - bind(thisArg: any, ...args: any[]) => Function
+(function FunctionPolyfills() {
+  'use strict';
+
+  var FunctionPrototype = {
+    bind: function (thisArg) {
+      var that = this;
+      var args = Array.prototype.slice.call(arguments, 1);
+      return function () {
+        return that.apply(thisArg, args.concat(Array.prototype.slice.call(arguments)));
+      };
+    }
+  };
+
+  for (var key in FunctionPrototype) {
+    if (typeof Function.prototype[key] === 'function') continue;
+    Function.prototype[key] = FunctionPrototype[key];
+  }
+}());
+
 // Array methods
 // - from<T, U>(arrayLike: ArrayLike<T>, mapfn: (value: T) => U, thisArg: any) => U[]
 // Array prototype methods
