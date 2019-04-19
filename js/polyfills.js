@@ -109,6 +109,16 @@
     },
     includes: function (item, startIndex) {
       return this.indexOf(item, startIndex) !== -1;
+    },
+    flatten: function (depth) {
+      var parsed = Number(depth);
+      depth = isNaN(parsed) ? 1 : parsed | 0;
+
+      var arr = this.reduce(function (acc, curr) { return acc.concat(curr) }, []);
+      return depth > 1 ? arr.flatten(depth - 1) : arr;
+    },
+    flatMap: function (fn, thisArg) {
+      return this.map(fn, thisArg).flatten();
     }
   };
   
