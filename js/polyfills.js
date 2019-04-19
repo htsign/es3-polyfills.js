@@ -200,6 +200,16 @@
 (function StringPolyFills() {
   'use strict';
 
+  var padInternal = function (s, length, padString) {
+    padString = padString != null ? String(padString) : ' ';
+
+    var restLength = length - s.length;
+    if (restLength < 0) return '';
+
+    var repeatCount = Math.ceil(restLength / padString.length);
+    return padString.repeat(repeatCount).slice(0, restLength);
+  };
+
   var StringPrototype = {
     trim: function () {
       return String(this).replace(/^[\s\u00a0]+|[\s\u00a0]+$/g, '');
@@ -229,23 +239,11 @@
     },
     padStart: function (length, padString) {
       var s = String(this);
-      padString = padString != null ? String(padString) : ' ';
-
-      var restLength = length - s.length;
-      if (restLength < 0) return s;
-
-      var repeatCount = Math.ceil(restLength / padString.length);
-      return padString.repeat(repeatCount).slice(0, restLength) + s;
+      return padInternal(s, length, padString) + s;
     },
     padEnd: function (length, padString) {
       var s = String(this);
-      padString = padString != null ? String(padString) : ' ';
-
-      var restLength = length - s.length;
-      if (restLength < 0) return s;
-
-      var repeatCount = Math.ceil(restLength / padString.length);
-      return s + padString.repeat(repeatCount).slice(0, restLength);
+      return s + padInternal(s, length, padString);
     },
     repeat: function (count) {
       count = Number(count) | 0;
