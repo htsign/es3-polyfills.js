@@ -78,12 +78,12 @@
 (function ArrayPolyfills() {
   'use strict';
 
-  var ARGUMENT_ISNOT_FUNCTION = 'argument is not a Function object';
-  var INITIAL_VALUE_NEEDED    = 'it must have least one element or initial value';
+  var ARGUMENT_ISNOT_FUNCTION = 'TypeError: argument is not a Function object';
+  var INITIAL_VALUE_NEEDED    = 'TypeError: it must have least one element or initial value';
 
   var ArrayPrototype = {
     map: function (fn, thisArg) {
-      if (typeof fn !== 'function') throw new TypeError(ARGUMENT_ISNOT_FUNCTION);
+      if (typeof fn !== 'function') throw new Error(ARGUMENT_ISNOT_FUNCTION);
 
       var arr = [];
       for (var i = 0, len = this.length; i < len; ++i) {
@@ -100,14 +100,14 @@
       return arr;
     },
     forEach: function (fn, thisArg) {
-      if (typeof fn !== 'function') throw new TypeError(ARGUMENT_ISNOT_FUNCTION);
+      if (typeof fn !== 'function') throw new Error(ARGUMENT_ISNOT_FUNCTION);
 
       for (var i = 0, len = this.length; i < len; ++i) {
         fn.call(thisArg, this[i], i, this);
       }
     },
     every: function (fn, thisArg) {
-      if (typeof fn !== 'function') throw new TypeError(ARGUMENT_ISNOT_FUNCTION);
+      if (typeof fn !== 'function') throw new Error(ARGUMENT_ISNOT_FUNCTION);
 
       for (var i = 0, len = this.length; i < len; ++i) {
         if (!fn.call(thisArg, this[i], i, this)) return false;
@@ -115,7 +115,7 @@
       return true;
     },
     some: function (fn, thisArg) {
-      if (typeof fn !== 'function') throw new TypeError(ARGUMENT_ISNOT_FUNCTION);
+      if (typeof fn !== 'function') throw new Error(ARGUMENT_ISNOT_FUNCTION);
 
       for (var i = 0, len = this.length; i < len; ++i) {
         if (fn.call(thisArg, this[i], i, this)) return true;
@@ -123,11 +123,11 @@
       return false;
     },
     reduce: function (fn, initVal) {
-      if (typeof fn !== 'function') throw new TypeError(ARGUMENT_ISNOT_FUNCTION);
+      if (typeof fn !== 'function') throw new Error(ARGUMENT_ISNOT_FUNCTION);
 
       var arr = Array.from(this);
       if (arguments.length >= 2) arr.unshift(initVal);
-      if (arr.length === 0) throw new TypeError(INITIAL_VALUE_NEEDED);
+      if (arr.length === 0) throw new Error(INITIAL_VALUE_NEEDED);
 
       var curr = arr[0];
       for (var i = 1, len = arr.length; i < len; ++i) {
@@ -166,7 +166,7 @@
     from: function (arrayLike, mapfn, thisArg) {
       if (arrayLike.length === void 0) return [];
       if (arguments.length < 2) mapfn = function (x) { return x };
-      if (typeof mapfn !== 'function') throw new TypeError(ARGUMENT_ISNOT_FUNCTION);
+      if (typeof mapfn !== 'function') throw new Error(ARGUMENT_ISNOT_FUNCTION);
 
       var arr = [];
       for (var i = 0, len = arrayLike.length; i < len; ++i) {
@@ -221,7 +221,7 @@
       return String(this).replace(/[\s\u00a0]+$/g, '');
     },
     startsWith: function (s, pos) {
-      if (Object.prototype.toString.call(s) === '[object RegExp]') throw new TypeError();
+      if (Object.prototype.toString.call(s) === '[object RegExp]') throw new Error('TypeError');
       if (typeof pos !== 'number' || !(pos instanceof Number)) startIndex = 0;
 
       return String(this).substr(pos | 0, s.length) === s;
@@ -247,7 +247,7 @@
     },
     repeat: function (count) {
       count = Number(count) | 0;
-      if (count < 0) throw new RangeError('repeat count must be non-negative');
+      if (count < 0) throw new Error('RangeError: repeat count must be non-negative');
       return Array.from({ length: count + 1 }).join(this);
     }
   };
