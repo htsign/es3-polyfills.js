@@ -7,6 +7,13 @@
 (function ObjectPolyfills() {
   'use strict';
 
+  var transformObjectInternal = function (iterable, base) {
+    return Array.prototype.reduce.call(iterable, function (acc, kv) {
+      acc[kv[0]] = kv[1];
+      return acc;
+    }, base);
+  };
+
   var ObjectStatic = {
     keys: function (obj) {
       var keys = [];
@@ -16,28 +23,17 @@
       return keys;
     },
     values: function (obj) {
-      return Object.keys(obj).reduce(function (values, key) {
-        return values.concat(obj[key]);
-      }, []);
+      return Object.keys(obj).map(function (key) { return obj[key] });
     },
     entries: function (obj) {
-      return Object.keys(obj).reduce(function (entries, key) {
-        return entries.concat([[key, obj[key]]]);
-      }, []);
+      return Object.keys(obj).map(function (key) { return [key, obj[key]] });
     },
     fromEntries: function (iterable) {
-      return Array.prototype.reduce.call(iterable, function (acc, kv) {
-        acc[kv[0]] = kv[1];
-        return acc;
-      }, {});
+      return transformObjectInternal(iterable, {});
     },
     assign: function (target) {
-      return Array.from(arguments, Object.entries)
-        .reduce(function (acc, kvs) { return acc.concat(kvs) }, [])
-        .reduce(function (acc, kv) {
-          acc[kv[0]] = kv[1];
-          return acc;
-        }, Object(target));
+      var entries = Array.prototype.flatMap.call(arguments, Object.entries);
+      return transformObjectInternal(entries, Object(target));
     }
   };
 
