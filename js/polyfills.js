@@ -2,6 +2,7 @@
 // - keys(obj: {}) => string[]
 // - values(obj: {}) => any[]
 // - entries(obj: {}) => { [key: string]: any }
+// - fromEntries(iterable: [any, any][]) => {}
 // - assign(obj: {}) => {}
 (function ObjectPolyfills() {
   'use strict';
@@ -23,6 +24,12 @@
       return Object.keys(obj).reduce(function (entries, key) {
         return entries.concat([[key, obj[key]]]);
       }, []);
+    },
+    fromEntries: function (iterable) {
+      return Array.prototype.reduce.call(iterable, function (acc, kv) {
+        acc[kv[0]] = kv[1];
+        return acc;
+      }, {});
     },
     assign: function (target) {
       return Array.from(arguments, Object.entries)
