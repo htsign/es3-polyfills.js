@@ -92,7 +92,7 @@
       return arr;
     },
     filter: function (fn, thisArg) {
-      var mapped = this.map(fn, thisArg);
+      var mapped = Array.prototype.map.call(this, fn, thisArg);
       var arr = [];
       for (var i = 0, len = this.length; i < len; ++i) {
         if (!!mapped[i]) arr[arr.length] = this[i];
@@ -136,7 +136,7 @@
       return curr;
     },
     reduceRight: function (fn, initVal) {
-      return this.concat().reverse().reduce(fn, initVal);
+      return Array.prototype.slice.call(this).reverse().reduce(fn, initVal);
     },
     indexOf: function (item, startIndex) {
       if (typeof startIndex !== 'number' || !(startIndex instanceof Number))
@@ -148,17 +148,17 @@
       return -1;
     },
     includes: function (item, startIndex) {
-      return this.indexOf(item, startIndex) !== -1;
+      return Array.prototype.indexOf.call(this, item, startIndex) !== -1;
     },
     flat: function (depth) {
       var parsed = Number(depth);
       depth = isNaN(parsed) ? 1 : parsed | 0;
 
-      var arr = this.reduce(function (acc, curr) { return acc.concat(curr) }, []);
+      var arr = Array.prototype.reduce.call(this, function (acc, curr) { return acc.concat(curr) }, []);
       return depth > 1 ? arr.flat(depth - 1) : arr;
     },
     flatMap: function (fn, thisArg) {
-      return this.map(fn, thisArg).flat();
+      return Array.prototype.map.call(this, fn, thisArg).flat();
     }
   };
 
