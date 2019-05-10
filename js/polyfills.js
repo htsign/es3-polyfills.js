@@ -74,6 +74,7 @@
 // - some<T>(fn: (value: T, index: number, array: T[]) => any, thisArg: any) => boolean
 // - reduce<T, U>(fn: (accumulator: U, value: T, index: number, array: T[]) => U, initVal: U) => U
 // - reduceRight<T, U>(fn: (accumulator: U, value: T, index: number, array: T[]) => U, initVal: U) => U
+// - find<T>(fn: (value: T, index: number, array: T[]) => any, thisArg: any) => T
 // - indexOf<T>(item: T, startIndex: number) => number
 // - includes<T>(item: T, startIndex: number) => boolean
 // - flat<T>(depth: number) => T[]
@@ -140,6 +141,15 @@
     },
     reduceRight: function (fn, initVal) {
       return Array.prototype.slice.call(this).reverse().reduce(fn, initVal);
+    },
+    find: function (fn, thisArg) {
+      if (typeof fn !== 'function') throw new Error(ARGUMENT_ISNOT_FUNCTION);
+
+      for (var i = 0, len = this.length; i < len; ++i) {
+        var value = this[i];
+        if (fn.call(thisArg, value, i, this)) return value;
+      }
+      return void 0;
     },
     indexOf: function (item, startIndex) {
       if (typeof startIndex !== 'number' || !(startIndex instanceof Number))
