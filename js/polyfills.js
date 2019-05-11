@@ -101,7 +101,7 @@
       var mapped = Array.prototype.map.call(this, fn, thisArg);
       var arr = [];
       for (var i = 0, len = this.length; i < len; ++i) {
-        if (!!mapped[i]) arr[arr.length] = item(this, i);
+        if (!!mapped[i]) arr.push(item(this, i));
       }
       return arr;
     },
