@@ -199,7 +199,7 @@
 
       var arr = [];
       for (var i = 0, len = arrayLike.length; i < len; ++i) {
-        arr.push(arrayLike[i]);
+        arr.push(getItem(arrayLike, i));
       }
       return arr.map(mapfn, thisArg);
     }
