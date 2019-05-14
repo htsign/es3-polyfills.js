@@ -142,7 +142,10 @@
     reduce: function (fn, initVal) {
       if (typeof fn !== 'function') throw new Error(ARGUMENT_ISNOT_FUNCTION);
 
-      var arr = Array.from(this);
+      var arr = [];
+      for (var i = 0, len = this.length; i < len; ++i) {
+        arr.push(getItem(this, i));
+      }
       if (arguments.length >= 2) arr.unshift(initVal);
       if (arr.length === 0) throw new Error(INITIAL_VALUE_NEEDED);
 
