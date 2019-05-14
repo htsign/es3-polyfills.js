@@ -85,7 +85,18 @@
   var ARGUMENT_ISNOT_FUNCTION = 'TypeError: argument is not a Function object';
   var INITIAL_VALUE_NEEDED    = 'TypeError: it must have least one element or initial value';
 
-  var item = function (arr, i) { return arr.item ? arr.item(i) : arr[i] };
+  var getItem = function (arr, i) {
+    if (i in arr) {
+      return arr[i];
+    }
+    if (typeof arr.item === 'object' || typeof arr.item === 'function') {
+      try {
+        return arr.item(i);
+      }
+      catch (e) { }
+    }
+    return void 0;
+  };
 
   var ArrayPrototype = {
     map: function (fn, thisArg) {
@@ -93,7 +104,7 @@
 
       var arr = [];
       for (var i = 0, len = this.length; i < len; ++i) {
-        arr.push(fn.call(thisArg, item(this, i), i, this));
+        arr.push(fn.call(thisArg, getItem(this, i), i, this));
       }
       return arr;
     },
@@ -101,7 +112,7 @@
       var mapped = Array.prototype.map.call(this, fn, thisArg);
       var arr = [];
       for (var i = 0, len = this.length; i < len; ++i) {
-        if (!!mapped[i]) arr.push(item(this, i));
+        if (!!mapped[i]) arr.push(getItem(this, i));
       }
       return arr;
     },
@@ -109,14 +120,14 @@
       if (typeof fn !== 'function') throw new Error(ARGUMENT_ISNOT_FUNCTION);
 
       for (var i = 0, len = this.length; i < len; ++i) {
-        fn.call(thisArg, item(this, i), i, this);
+        fn.call(thisArg, getItem(this, i), i, this);
       }
     },
     every: function (fn, thisArg) {
       if (typeof fn !== 'function') throw new Error(ARGUMENT_ISNOT_FUNCTION);
 
       for (var i = 0, len = this.length; i < len; ++i) {
-        if (!fn.call(thisArg, item(this, i), i, this)) return false;
+        if (!fn.call(thisArg, getItem(this, i), i, this)) return false;
       }
       return true;
     },
@@ -124,7 +135,7 @@
       if (typeof fn !== 'function') throw new Error(ARGUMENT_ISNOT_FUNCTION);
 
       for (var i = 0, len = this.length; i < len; ++i) {
-        if (fn.call(thisArg, item(this, i), i, this)) return true;
+        if (fn.call(thisArg, getItem(this, i), i, this)) return true;
       }
       return false;
     },
@@ -148,7 +159,7 @@
       if (typeof fn !== 'function') throw new Error(ARGUMENT_ISNOT_FUNCTION);
 
       for (var i = 0, len = this.length; i < len; ++i) {
-        var value = item(this, i);
+        var value = getItem(this, i);
         if (fn.call(thisArg, value, i, this)) return value;
       }
       return void 0;
@@ -157,7 +168,7 @@
       if (typeof startIndex !== 'number' || !(startIndex instanceof Number))
         startIndex = 0;
       for (var i = startIndex | 0, len = this.length; i < len; ++i) {
-        var curr = item(this, i);
+        var curr = getItem(this, i);
         if (curr === item) return i;
       }
       return -1;
