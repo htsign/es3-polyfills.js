@@ -156,7 +156,7 @@
       return curr;
     },
     reduceRight: function (fn, initVal) {
-      return Array.prototype.slice.call(this).reverse().reduce(fn, initVal);
+      return Array.from(this).reverse().reduce(fn, initVal);
     },
     find: function (fn, thisArg) {
       if (typeof fn !== 'function') throw new Error(ARGUMENT_ISNOT_FUNCTION);
