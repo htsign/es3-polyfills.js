@@ -100,44 +100,27 @@
 
   var ArrayPrototype = {
     map: function (fn, thisArg) {
-      if (typeof fn !== 'function') throw new Error(ARGUMENT_ISNOT_FUNCTION);
-
-      var arr = [];
-      for (var i = 0, len = this.length; i < len; ++i) {
-        arr.push(fn.call(thisArg, getItem(this, i), i, this));
-      }
-      return arr;
+      return this.reduce(function (acc, curr, i, arr) {
+        acc.push(fn.call(thisArg, curr, i, arr));
+        return acc;
+      }, []);
     },
     filter: function (fn, thisArg) {
-      var mapped = Array.prototype.map.call(this, fn, thisArg);
-      var arr = [];
-      for (var i = 0, len = this.length; i < len; ++i) {
-        if (!!mapped[i]) arr.push(getItem(this, i));
-      }
-      return arr;
+      return this.reduce(function (acc, curr, i, arr) {
+        if (fn.call(thisArg, curr, i, arr)) {
+          acc.push(curr);
+        }
+        return acc;
+      }, []);
     },
     forEach: function (fn, thisArg) {
-      if (typeof fn !== 'function') throw new Error(ARGUMENT_ISNOT_FUNCTION);
-
-      for (var i = 0, len = this.length; i < len; ++i) {
-        fn.call(thisArg, getItem(this, i), i, this);
-      }
+      this.reduce(function (_, curr, i, arr) { fn.call(thisArg, curr, i, arr) }, []);
     },
     every: function (fn, thisArg) {
-      if (typeof fn !== 'function') throw new Error(ARGUMENT_ISNOT_FUNCTION);
-
-      for (var i = 0, len = this.length; i < len; ++i) {
-        if (!fn.call(thisArg, getItem(this, i), i, this)) return false;
-      }
-      return true;
+      return this.reduce(function (acc, curr, i, arr) { return acc && fn.call(thisArg, curr, i, arr) }, true);
     },
     some: function (fn, thisArg) {
-      if (typeof fn !== 'function') throw new Error(ARGUMENT_ISNOT_FUNCTION);
-
-      for (var i = 0, len = this.length; i < len; ++i) {
-        if (fn.call(thisArg, getItem(this, i), i, this)) return true;
-      }
-      return false;
+      return this.reduce(function (acc, curr, i, arr) { return acc || fn.call(thisArg, curr, i, arr) }, false);
     },
     reduce: function (fn, initVal) {
       if (typeof fn !== 'function') throw new Error(ARGUMENT_ISNOT_FUNCTION);
