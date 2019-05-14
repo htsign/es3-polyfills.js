@@ -151,7 +151,7 @@
 
       var curr = arr[0];
       for (var i = 1, len = arr.length; i < len; ++i) {
-        curr = fn.call(void 0, curr, arr[i], i, this);
+        curr = fn.call(void 0, curr, arr[i], i - 1, this);
       }
       return curr;
     },
