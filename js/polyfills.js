@@ -7,6 +7,8 @@
 (function ObjectPolyfills() {
   'use strict';
 
+  var runOnBrowser = typeof window !== 'undefined';
+
   var transformObjectInternal = function (iterable, base) {
     return Array.prototype.reduce.call(iterable, function (acc, kv) {
       acc[kv[0]] = kv[1];
@@ -38,7 +40,7 @@
   };
 
   for (var key in ObjectStatic) {
-    if (typeof Object[key] === 'function') continue;
+    if (runOnBrowser && typeof Object[key] === 'function') continue;
     Object[key] = ObjectStatic[key];
   }
 }());
@@ -47,6 +49,8 @@
 // - bind(thisArg: any, ...args: any[]) => Function
 (function FunctionPolyfills() {
   'use strict';
+
+  var runOnBrowser = typeof window !== 'undefined';
 
   var FunctionPrototype = {
     bind: function (thisArg) {
@@ -59,7 +63,7 @@
   };
 
   for (var key in FunctionPrototype) {
-    if (typeof Function.prototype[key] === 'function') continue;
+    if (runOnBrowser && typeof Function.prototype[key] === 'function') continue;
     Function.prototype[key] = FunctionPrototype[key];
   }
 }());
@@ -81,6 +85,8 @@
 // - flatMap<T, U>(fn: (value: T, index: number, array: T[]) => U[], thisArg: any) => U[]
 (function ArrayPolyfills() {
   'use strict';
+
+  var runOnBrowser = typeof window !== 'undefined';
 
   var ARGUMENT_ISNOT_FUNCTION = 'TypeError: argument is not a Function object';
   var INITIAL_VALUE_NEEDED    = 'TypeError: it must have least one element or initial value';
@@ -203,12 +209,12 @@
   };
 
   for (var key in ArrayPrototype) {
-    if (typeof Array.prototype[key] === 'function') continue;
+    if (runOnBrowser && typeof Array.prototype[key] === 'function') continue;
     Array.prototype[key] = ArrayPrototype[key];
   }
 
   for (var key in ArrayStatic) {
-    if (typeof Array[key] === 'function') continue;
+    if (runOnBrowser && typeof Array[key] === 'function') continue;
     Array[key] = ArrayStatic[key];
   }
 }());
@@ -225,6 +231,8 @@
 // - repeat(count) => string
 (function StringPolyFills() {
   'use strict';
+
+  var runOnBrowser = typeof window !== 'undefined';
 
   var padInternal = function (s, length, padString) {
     padString = padString != null ? String(padString) : ' ';
@@ -279,7 +287,7 @@
   };
 
   for (var key in StringPrototype) {
-    if (typeof String.prototype[key] === 'function') continue;
+    if (runOnBrowser && typeof String.prototype[key] === 'function') continue;
     String.prototype[key] = StringPrototype[key];
   }
 }());
