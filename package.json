@@ -1,0 +1,27 @@
+{
+  "name": "es3-polyfills",
+  "version": "1.0.0",
+  "description": "ES5 or above polyfills for ES3 (It's not compatible with ECMA-262 strictly)",
+  "main": "js/polyfills.js",
+  "dependencies": {},
+  "devDependencies": {
+    "jest": "^24.8.0"
+  },
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/htsign/es3-polyfills.js.git"
+  },
+  "keywords": [
+    "polyfill",
+    "legacy"
+  ],
+  "author": "htsign",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/htsign/es3-polyfills.js/issues"
+  },
+  "homepage": "https://github.com/htsign/es3-polyfills.js#readme"
+}
