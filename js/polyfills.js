@@ -114,7 +114,11 @@
       }, []);
     },
     forEach: function (fn, thisArg) {
-      this.reduce(function (_, curr, i, arr) { fn.call(thisArg, curr, i, arr) }, []);
+      if (typeof fn !== 'function') throw new Error(ARGUMENT_ISNOT_FUNCTION);
+
+      for (var i = 0, len = this.length; i < len; ++i) {
+        fn.call(thisArg, getItem(this, i), i, this);
+      }
     },
     every: function (fn, thisArg) {
       if (typeof fn !== 'function') throw new Error(ARGUMENT_ISNOT_FUNCTION);
