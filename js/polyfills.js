@@ -101,16 +101,12 @@
   var ArrayPrototype = {
     map: function (fn, thisArg) {
       return this.reduce(function (acc, curr, i, arr) {
-        acc.push(fn.call(thisArg, curr, i, arr));
-        return acc;
+        return acc.concat([fn.call(thisArg, curr, i, arr)]);
       }, []);
     },
     filter: function (fn, thisArg) {
       return this.reduce(function (acc, curr, i, arr) {
-        if (fn.call(thisArg, curr, i, arr)) {
-          acc.push(curr);
-        }
-        return acc;
+        return fn.call(thisArg, curr, i, arr) ? acc.concat([curr]) : acc;
       }, []);
     },
     forEach: function (fn, thisArg) {
