@@ -100,12 +100,16 @@
 
   var ArrayPrototype = {
     map: function (fn, thisArg) {
-      return this.reduce(function (acc, curr, i, arr) {
+      if (typeof fn !== 'function') throw new Error(ARGUMENT_ISNOT_FUNCTION);
+
+      return Array.prototype.reduce.call(this, function (acc, curr, i, arr) {
         return acc.concat([fn.call(thisArg, curr, i, arr)]);
       }, []);
     },
     filter: function (fn, thisArg) {
-      return this.reduce(function (acc, curr, i, arr) {
+      if (typeof fn !== 'function') throw new Error(ARGUMENT_ISNOT_FUNCTION);
+
+      return Array.prototype.reduce.call(this, function (acc, curr, i, arr) {
         return fn.call(thisArg, curr, i, arr) ? acc.concat([curr]) : acc;
       }, []);
     },
@@ -113,10 +117,18 @@
       this.reduce(function (_, curr, i, arr) { fn.call(thisArg, curr, i, arr) }, []);
     },
     every: function (fn, thisArg) {
-      return this.reduce(function (acc, curr, i, arr) { return acc && fn.call(thisArg, curr, i, arr) }, true);
+      if (typeof fn !== 'function') throw new Error(ARGUMENT_ISNOT_FUNCTION);
+
+      return Array.prototype.reduce.call(this, function (acc, curr, i, arr) {
+        return acc && fn.call(thisArg, curr, i, arr);
+      }, true);
     },
     some: function (fn, thisArg) {
-      return this.reduce(function (acc, curr, i, arr) { return acc || fn.call(thisArg, curr, i, arr) }, false);
+      if (typeof fn !== 'function') throw new Error(ARGUMENT_ISNOT_FUNCTION);
+
+      return Array.prototype.reduce.call(this, function (acc, curr, i, arr) {
+        return acc || fn.call(thisArg, curr, i, arr);
+      }, false);
     },
     reduce: function (fn, initVal) {
       if (typeof fn !== 'function') throw new Error(ARGUMENT_ISNOT_FUNCTION);
@@ -162,7 +174,9 @@
       var parsed = Number(depth);
       depth = isNaN(parsed) ? 1 : parsed | 0;
 
-      var arr = Array.prototype.reduce.call(this, function (acc, curr) { return acc.concat(curr) }, []);
+      var arr = Array.prototype.reduce.call(this, function (acc, curr) {
+        return acc.concat(curr);
+      }, []);
       return depth > 1 ? arr.flat(depth - 1) : arr;
     },
     flatMap: function (fn, thisArg) {
