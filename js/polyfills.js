@@ -256,17 +256,15 @@
     },
     startsWith: function (s, pos) {
       if (Object.prototype.toString.call(s) === '[object RegExp]') throw new Error('TypeError');
-      if (typeof pos !== 'number' || !(pos instanceof Number)) startIndex = 0;
 
-      return String(this).substr(pos | 0, s.length) === s;
+      pos = !pos || pos < 0 ? 0 : +pos;
+      return String(this).substr(pos | 0, pos + s.length) === s;
     },
     endsWith: function (s, pos) {
-      if (typeof pos !== 'number' || !(pos instanceof Number) || pos > s.length)
-        pos = s.length;
+      if (typeof pos !== 'number' || !(pos instanceof Number) || pos > this.length)
+        pos = this.length;
 
-      pos -= s.length;
-      var lastIndex = String(this).lastIndexOf(s, pos);
-      return lastIndex !== -1 && lastIndex === pos;
+      return String(this).substr(pos - s.length, pos | 0) === s;
     },
     includes: function (s, startIndex) {
       return String(this).indexOf(s, startIndex) !== -1;
