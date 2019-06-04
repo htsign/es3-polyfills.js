@@ -95,7 +95,7 @@
     if (i in arr) {
       return arr[i];
     }
-    if (typeof arr.item === 'object' || typeof arr.item === 'function') {
+    if ('item' in arr && ['object', 'function', 'unknown'].includes(typeof arr.item)) {
       try {
         return arr.item(i);
       }
