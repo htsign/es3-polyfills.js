@@ -5,10 +5,16 @@
   "main": "js/polyfills.js",
   "dependencies": {},
   "devDependencies": {
+    "husky": "^3.0.2",
     "jest": "^24.8.0"
   },
   "scripts": {
     "test": "jest"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm test"
+    }
   },
   "repository": {
     "type": "git",
