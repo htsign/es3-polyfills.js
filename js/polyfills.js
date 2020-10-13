@@ -70,6 +70,7 @@
 
 // Array methods
 // - from<T, U>(arrayLike: ArrayLike<T>, mapfn: (value: T) => U, thisArg: any) => U[]
+// - of<T>(...items: T[]) => T[]
 // Array prototype methods
 // - map<T, U>(fn: (value: T, index: number, array: T[]) => U, thisArg: any) => U[]
 // - filter<T>(fn: (value: T, index: number, array: T[]) => any, thisArg: any) => T[]
@@ -205,6 +206,9 @@
         arr.push(getItem(arrayLike, i));
       }
       return arr.map(mapfn, thisArg);
+    },
+    of: function () {
+      return Array.from(arguments);
     }
   };
 
