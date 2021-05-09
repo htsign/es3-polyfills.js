@@ -163,7 +163,20 @@
         return curr;
       },
       reduceRight: function (fn, initVal) {
-        return Array.from(this).reverse().reduce(fn, initVal);
+        if (typeof fn !== 'function') throw new Error(ARGUMENT_ISNOT_FUNCTION);
+
+        var arr = [];
+        for (var i = 0, len = this.length; i < len; ++i) {
+          arr.push(getItem(this, i));
+        }
+        if (arguments.length >= 2) arr.push(initVal);
+        if (arr.length === 0) throw new Error(INITIAL_VALUE_NEEDED);
+
+        var curr = arr[arr.length - 1];
+        for (var i = arr.length - 1; i-- > 0; ) {
+          curr = fn.call(void 0, curr, arr[i], i, this);
+        }
+        return curr;
       },
       find: function (fn, thisArg) {
         if (typeof fn !== 'function') throw new Error(ARGUMENT_ISNOT_FUNCTION);
@@ -175,7 +188,7 @@
         return void 0;
       },
       indexOf: function (item, startIndex) {
-        if (typeof startIndex !== 'number' || !(startIndex instanceof Number))
+        if (typeof startIndex !== 'number' && !(startIndex instanceof Number))
           startIndex = 0;
         for (var i = startIndex | 0, len = this.length; i < len; ++i) {
           var curr = getItem(this, i);
@@ -188,11 +201,23 @@
       },
       flat: function (depth) {
         var parsed = Number(depth);
-        depth = isNaN(parsed) ? 1 : parsed | 0;
+        if (isNaN(parsed)) {
+          depth = 1;
+        }
+        else {
+          depth = parsed === Infinity ? Infinity : parsed | 0;
+        }
 
+        if (depth === 0) return this;
         var arr = Array.prototype.reduce.call(this, function (acc, curr) {
           return acc.concat(curr);
         }, []);
+        if (depth === Infinity) {
+          if (arr.find(function (x) { return x instanceof Array })) {
+            return arr.flat(Infinity);
+          }
+          return arr;
+        }
         return depth > 1 ? arr.flat(depth - 1) : arr;
       },
       flatMap: function (fn, thisArg) {
