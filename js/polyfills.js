@@ -201,11 +201,23 @@
       },
       flat: function (depth) {
         var parsed = Number(depth);
-        depth = isNaN(parsed) ? 1 : parsed | 0;
+        if (isNaN(parsed)) {
+          depth = 1;
+        }
+        else {
+          depth = parsed === Infinity ? Infinity : parsed | 0;
+        }
 
+        if (depth === 0) return this;
         var arr = Array.prototype.reduce.call(this, function (acc, curr) {
           return acc.concat(curr);
         }, []);
+        if (depth === Infinity) {
+          if (arr.find(function (x) { return x instanceof Array })) {
+            return arr.flat(Infinity);
+          }
+          return arr;
+        }
         return depth > 1 ? arr.flat(depth - 1) : arr;
       },
       flatMap: function (fn, thisArg) {
