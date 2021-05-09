@@ -163,7 +163,20 @@
         return curr;
       },
       reduceRight: function (fn, initVal) {
-        return Array.from(this).reverse().reduce(fn, initVal);
+        if (typeof fn !== 'function') throw new Error(ARGUMENT_ISNOT_FUNCTION);
+
+        var arr = [];
+        for (var i = 0, len = this.length; i < len; ++i) {
+          arr.push(getItem(this, i));
+        }
+        if (arguments.length >= 2) arr.push(initVal);
+        if (arr.length === 0) throw new Error(INITIAL_VALUE_NEEDED);
+
+        var curr = arr[arr.length - 1];
+        for (var i = arr.length - 1; i-- > 0; ) {
+          curr = fn.call(void 0, curr, arr[i], i, this);
+        }
+        return curr;
       },
       find: function (fn, thisArg) {
         if (typeof fn !== 'function') throw new Error(ARGUMENT_ISNOT_FUNCTION);
