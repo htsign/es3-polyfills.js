@@ -92,13 +92,13 @@
   var ARGUMENT_ISNOT_FUNCTION = 'TypeError: argument is not a Function object';
   var INITIAL_VALUE_NEEDED    = 'TypeError: it must have least one element or initial value';
 
-  var getItem = function (arr, i) {
-    if (i in arr) {
-      return arr[i];
-    }
-    if ('item' in arr && ['object', 'function', 'unknown'].includes(typeof arr.item)) {
+  var getItem = function (source, i) {
+    if (i in source) return source[i];
+    if (Object.prototype.toString.call(source).slice(8, -1) === 'String') return source.charAt(i);
+
+    if ('item' in source && ['object', 'function', 'unknown'].includes(typeof source.item)) {
       try {
-        return arr.item(i);
+        return source.item(i);
       }
       catch (e) { }
     }
