@@ -98,8 +98,8 @@
     var INITIAL_VALUE_NEEDED    = 'TypeError: it must have least one element or initial value';
 
     var getItem = function (source, i) {
-      if (i in source) return source[i];
       if (Object.prototype.toString.call(source).slice(8, -1) === 'String') return source.charAt(i);
+      if (i in source) return source[i];
 
       if ('item' in source && ['object', 'function', 'unknown'].includes(typeof source.item)) {
         try {
