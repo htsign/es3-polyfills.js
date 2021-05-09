@@ -188,7 +188,7 @@
         return void 0;
       },
       indexOf: function (item, startIndex) {
-        if (typeof startIndex !== 'number' || !(startIndex instanceof Number))
+        if (typeof startIndex !== 'number' && !(startIndex instanceof Number))
           startIndex = 0;
         for (var i = startIndex | 0, len = this.length; i < len; ++i) {
           var curr = getItem(this, i);
