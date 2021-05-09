@@ -48,6 +48,32 @@ describe('polyfills.js', () => {
       [1, 2, 3].forEach(x => exp.push(x));
       expect(exp).toEqual([1, 2, 3]);
     });
+    test('Array.prototype.every', () => {
+      expect([2, 4, 6, 8].every(x => x % 2 === 0)).toBeTruthy();
+      expect([2, 4, 5, 8].every(x => x & 2 === 0)).toBeFalsy();
+    });
+    test('Array.prototype.some', () => {
+      expect([1, 3, 5, 7].some(x => x % 2 === 0)).toBeFalsy();
+      expect([1, 3, 6, 7].some(x => x % 2 === 0)).toBeTruthy();
+    });
+    test('Array.prototype.reduce', () => {
+      expect([[0, 1], [2, 3], [4, 5]].reduce((acc, cur) => acc.concat(cur))).toEqual([0, 1, 2, 3, 4, 5]);
+    });
+    test('Array.prototype.find', () => {
+      expect(['abc', 'def', 'ghi'].find(s => s.includes('e'))).toEqual('def');
+    });
+    test('Array.prototype.indexOf', () => {
+      expect([1, 2, 3, 4, 5, 1, 2, 3, 4, 5].indexOf(3)).toEqual(2);
+    });
+    test('Array.prototype.includes', () => {
+      expect([1, 2, 3, 4, 5, 1, 2, 3, 4, 5].includes(3)).toBeTruthy();
+    });
+    test('Array.prototype.flat', () => {
+      const arr = [1, 2, [3, 4, [5, 6, [7, 8, [9, 10]]]]];
+      expect(arr.flat()).toEqual(arr.flat(1));
+      expect(arr.flat(1)).toEqual([1, 2, 3, 4, [5, 6, [7, 8, [9, 10]]]]);
+      expect(arr.flat(2)).toEqual([1, 2, 3, 4, 5, 6, [7, 8, [9, 10]]]);
+    });
   });
 });
 
