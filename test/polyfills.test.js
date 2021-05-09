@@ -35,5 +35,19 @@ describe('polyfills.js', () => {
       expect(g(3, 4, 5)).toEqual([1, 2, 3, 4, 5]);
     });
   });
+
+  describe('Array prototype members', () => {
+    test('Array.prototype.map', () => {
+      expect([1, 2, 3].map(x => x + 1)).toEqual([2, 3, 4]);
+    });
+    test('Array.prototype.filter', () => {
+      expect([1, 2, 3, 4, 5].filter(x => x % 2)).toEqual([1, 3, 5]);
+    });
+    test('Array.prototype.forEach', () => {
+      const exp = [];
+      [1, 2, 3].forEach(x => exp.push(x));
+      expect(exp).toEqual([1, 2, 3]);
+    });
+  });
 });
 
