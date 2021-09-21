@@ -3,7 +3,6 @@
   "version": "1.0.0",
   "description": "ES5 or above polyfills for ES3 (It's not compatible with ECMA-262 strictly)",
   "main": "js/polyfills.js",
-  "dependencies": {},
   "devDependencies": {
     "husky": "^4.3.8",
     "jest": "^26.6.3"
