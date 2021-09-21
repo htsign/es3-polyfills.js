@@ -4,16 +4,12 @@
   "description": "ES5 or above polyfills for ES3 (It's not compatible with ECMA-262 strictly)",
   "main": "js/polyfills.js",
   "devDependencies": {
-    "husky": "^4.3.8",
-    "jest": "^26.6.3"
+    "husky": "^7.0.0",
+    "jest": "^27.2.1"
   },
   "scripts": {
-    "test": "jest"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "npm test"
-    }
+    "test": "jest",
+    "prepare": "husky install"
   },
   "repository": {
     "type": "git",
