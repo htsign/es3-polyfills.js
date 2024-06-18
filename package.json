@@ -4,8 +4,8 @@
   "description": "ES5 or above polyfills for ES3 (It's not compatible with ECMA-262 strictly)",
   "main": "js/polyfills.js",
   "devDependencies": {
-    "husky": "^7.0.0",
-    "jest": "^27.2.1"
+    "husky": "^9.0.11",
+    "jest": "^29.7.0"
   },
   "scripts": {
     "test": "jest",
