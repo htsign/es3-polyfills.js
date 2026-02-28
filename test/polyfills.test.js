@@ -93,4 +93,61 @@ suite('polyfills.js', () => {
       assert.deepStrictEqual([1, 2, 3, 4].flatMap(x => [x, x * 2]), [1, 2, 2, 4, 3, 6, 4, 8]);
     });
   });
+
+  suite('Array static members', () => {
+    test('Array.from', () => {
+      assert.deepStrictEqual(Array.from('foo'), ['f', 'o', 'o']);
+      assert.deepStrictEqual(Array.from([1, 2, 3], x => x + x), [2, 4, 6]);
+    });
+    test('Array.of', () => {
+      assert.deepStrictEqual(Array.of(1), [1]);
+      assert.deepStrictEqual(Array.of(1, 2, 3), [1, 2, 3]);
+      assert.deepStrictEqual(Array.of(undefined), [undefined]);
+    });
+  });
+
+  suite('String prototype members', () => {
+    test('String.prototype.trim', () => {
+      assert.strictEqual('  Hello World!  '.trim(), 'Hello World!');
+    });
+    test('String.prototype.trimStart', () => {
+      assert.strictEqual('  Hello World!  '.trimStart(), 'Hello World!  ');
+    });
+    test('String.prototype.trimEnd', () => {
+      assert.strictEqual('  Hello World!  '.trimEnd(), '  Hello World!');
+    });
+    test('String.prototype.startsWith', () => {
+      assert.strictEqual('Saturday night plans'.startsWith('Sat'), true);
+      assert.strictEqual('Saturday night plans'.startsWith('Sat', 0), true);
+      assert.strictEqual('Saturday night plans'.startsWith('Sat', 3), false);
+      assert.strictEqual('Saturday night plans'.startsWith('urday', 3), true);
+      assert.strictEqual('Saturday night plans'.startsWith('urday', '3'), true);
+      assert.strictEqual('Saturday night plans'.startsWith('Sat', 0.9), true);
+      assert.strictEqual('Saturday night plans'.startsWith('Sat', NaN), true);
+    });
+    test('String.prototype.endsWith', () => {
+      assert.strictEqual('Cats are the best!'.endsWith('best!'), true);
+      assert.strictEqual('Cats are the best!'.endsWith('best', 17), true);
+      assert.strictEqual('Cats are the best!'.endsWith('best', 18), false);
+      assert.strictEqual('Cats are the best!'.endsWith('best', '17'), true);
+      assert.strictEqual('Cats are the best!'.endsWith('best', 17.9), true);
+      assert.strictEqual('Cats are the best!'.endsWith('Cats', NaN), false);
+    });
+    test('String.prototype.includes', () => {
+      assert.strictEqual('Blue Whale'.includes('Blue'), true);
+      assert.strictEqual('Blue Whale'.includes('blue'), false);
+    });
+    test('String.prototype.padStart', () => {
+      assert.strictEqual('5'.padStart(2, '0'), '05');
+      assert.strictEqual('5'.padStart(4, '0'), '0005');
+    });
+    test('String.prototype.padEnd', () => {
+      assert.strictEqual('Breaded Mushrooms'.padEnd(25, '.'), 'Breaded Mushrooms........');
+      assert.strictEqual('200'.padEnd(5), '200  ');
+    });
+    test('String.prototype.repeat', () => {
+      assert.strictEqual('chorus'.repeat(3), 'choruschoruschorus');
+      assert.strictEqual('chorus'.repeat(0), '');
+    });
+  });
 });
