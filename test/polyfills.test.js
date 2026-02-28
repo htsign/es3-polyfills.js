@@ -69,6 +69,7 @@ suite('polyfills.js', () => {
     });
     test('Array.prototype.find', () => {
       assert.strictEqual(['abc', 'def', 'ghi'].find(s => s.includes('e')), 'def');
+      assert.strictEqual(['abc', 'def', 'ghi'].find(s => s.includes('z')), undefined);
     });
     test('Array.prototype.indexOf', () => {
       assert.deepStrictEqual([1, 2, 3, 4, 5, 1, 2, 3, 4, 5].indexOf(3), 2);
