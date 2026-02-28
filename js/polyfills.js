@@ -289,14 +289,15 @@
       startsWith: function (s, pos) {
         if (Object.prototype.toString.call(s) === '[object RegExp]') throw new Error('TypeError');
 
-        pos = !pos || pos < 0 ? 0 : +pos;
-        return String(this).substr(pos | 0, pos + s.length) === s;
+        pos = (!pos || pos < 0) ? 0 : (pos | 0);
+        return String(this).substring(pos, pos + s.length) === s;
       },
       endsWith: function (s, pos) {
-        if (typeof pos !== 'number' || !(pos instanceof Number) || pos > this.length)
+        if (pos === void 0 || pos > this.length)
           pos = this.length;
+        pos = pos | 0;
 
-        return String(this).substr(pos - s.length, pos | 0) === s;
+        return String(this).substring(pos - s.length, pos) === s;
       },
       includes: function (s, startIndex) {
         return String(this).indexOf(s, startIndex) !== -1;
