@@ -136,14 +136,14 @@
         if (typeof fn !== 'function') throw new Error(ARGUMENT_ISNOT_FUNCTION);
 
         return Array.prototype.reduce.call(this, function (acc, curr, i, arr) {
-          return acc && fn.call(thisArg, curr, i, arr);
+          return acc && !!fn.call(thisArg, curr, i, arr);
         }, true);
       },
       some: function (fn, thisArg) {
         if (typeof fn !== 'function') throw new Error(ARGUMENT_ISNOT_FUNCTION);
 
         return Array.prototype.reduce.call(this, function (acc, curr, i, arr) {
-          return acc || fn.call(thisArg, curr, i, arr);
+          return acc || !!fn.call(thisArg, curr, i, arr);
         }, false);
       },
       reduce: function (fn, initVal) {
