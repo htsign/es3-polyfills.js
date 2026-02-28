@@ -7,9 +7,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: setup node
-      uses: actions/setup-node@v1
+      uses: actions/setup-node@v6
       with:
-        node-version: 22.x
-    - uses: actions/checkout@v2
+        node-version: 24.x
+    - uses: actions/checkout@v6
     - run: npm ci
     - run: npm test
